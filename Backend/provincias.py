@@ -32,19 +32,10 @@ if response.status_code == 200:
         data = response.json()
         # Este contador se utilizará para asignat claves únicas personalizadas
         cont = 1
-        # Comprobamos que la base de datos existe mediante su nombre
-        if db.name in lista_de_bases:
-            #Comprobamos que la colección existe mediante su nombre
-            if collection.name in lista_de_colecciones:
-                # Usando d para iterar la respuesta recibida, actualizamos los datos de nuestra base de datos con nuestra clave, y actualizamos el valor del nombre de la provincia (si es necesario)
-                for d in data['consulta_provincieroResult']['provinciero']['prov']:
-                    collection.update_one({'_id':cont},{'$set':{'provincia':d['np']}},upsert= True)
-                    cont+=1
-        # Por el contrario si ni la base ni la colección existe, inserta las claves asignadas por nuestro contador, y el nombre de provincia             
-        else:
-            for d in data['consulta_provincieroResult']['provinciero']['prov']:
-                collection.insert_one({'_id':cont,'provincia':d['np']})
-                cont+=1
+        # Usando d para iterar la respuesta recibida, actualizamos los datos de nuestra base de datos con nuestra clave, y actualizamos el valor del nombre de la provincia (si es necesario)
+        for d in data['consulta_provincieroResult']['provinciero']['prov']:
+            collection.update_one({'_id':cont},{'$set':{'provincia':d['np']}},upsert= True)
+            cont+=1
     except ValueError:
         print("Error al procesar JSON")
 else:
