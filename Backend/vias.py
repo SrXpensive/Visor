@@ -2,8 +2,10 @@ import requests
 from pymongo import MongoClient
 
 PROVINCIA = 'VALENCIA'
+MUNICIPIO = 'TAVERNES DE LA VALLDIGNA'
 # URL del endpoint
-url = f'http://ovc.catastro.meh.es/OVCServWeb/OVCWcfCallejero/COVCCallejero.svc/json/ObtenerMunicipios?Provincia={PROVINCIA}' #ObtenerProvincias
+url = F'http://ovc.catastro.meh.es/OVCServWeb/OVCWcfCallejero/COVCCallejero.svc/json/ObtenerCallejero?Provincia={PROVINCIA}&Municipio={MUNICIPIO}' #ObtenerProvincias
+
 
 # URL de la base de datos
 MONGO = 'mongodb://root:root@localhost'
@@ -23,8 +25,8 @@ db = cliente['visor']
 # Lista de colecciones
 lista_de_colecciones = db.list_collection_names()
 
-# Colección 'municipios'
-collection = db['municipios']
+# Colección 'vias de tavernes'
+collection = db['vias']
 
 # Comprobar que la respuesta de la petición es exitosa mediante el código de respuesta
 if response.status_code == 200:
@@ -33,10 +35,12 @@ if response.status_code == 200:
         data = response.json()
         # Este contador se utilizará para asignar claves únicas personalizadas
         cont = 1
-        # Usando d para iterar la respuesta recibida, actualizamos los datos de nuestra base de datos con nuestra clave, y actualizamos el valor del nombre del municipio (si es necesario)
-        for d in data['consulta_municipieroResult']['municipiero']['muni']:
-            collection.update_one({'_id':cont},{'$set':{'municipio':d['nm']}},upsert= True)
-            cont+=1
+        
+        # Recorrermos el json devuelto y guardar los datos que queremos
+        for d in data['consulta_callejeroResult']['callejero']['calle']:
+            # Vamos a usar el código de cada calle como clave, el problema que tenemos es que lo recibimos como string desde el JSON, así que vamos a declararlo como entero antes de realizar la inserción/actualización
+            clave = int(d['dir']['cv'])
+            collection.update_one({'_id':clave},{'$set':{'tipo de via':d['dir']['tv'],'nombre':d['dir']['nv']}}, upsert= True)
     except ValueError:
         print("Error al procesar JSON")
 else:
