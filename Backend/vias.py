@@ -4,7 +4,7 @@ from pymongo import MongoClient
 PROVINCIA = 'VALENCIA'
 MUNICIPIO = 'TAVERNES DE LA VALLDIGNA'
 # URL del endpoint
-url = F'http://ovc.catastro.meh.es/OVCServWeb/OVCWcfCallejero/COVCCallejero.svc/json/ObtenerCallejero?Provincia={PROVINCIA}&Municipio={MUNICIPIO}' #ObtenerProvincias
+url = f'http://ovc.catastro.meh.es/OVCServWeb/OVCWcfCallejero/COVCCallejero.svc/json/ObtenerCallejero?Provincia={PROVINCIA}&Municipio={MUNICIPIO}' #ObtenerProvincias
 
 
 # URL de la base de datos
