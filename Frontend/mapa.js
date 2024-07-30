@@ -20,14 +20,24 @@ var parcelasNum = L.tileLayer.wms('https://ovc.catastro.meh.es/cartografia/INSPI
     attribution: 'Catastro',
     styles: 'CP.CadastralParcel.ELFCadastre'
 });
+
+// Definimos capa de acequias para probar la integración con geoserver
+var acequias = L.tileLayer.wms('http://localhost:8080/geoserver/prueba/wms?',{
+    layers: "acequias",
+    format:"image/png",
+    transparent: true,
+    opacity: 0.5
+});
+
 // Creamos un objeto con la capa del mapa base
 var mapaBase = {
     "Base" : base
 }
-// Cfreamos un objeto con las capas de las parcelas con borde y con número
+// Creamos un objeto con las capas de las parcelas con borde y con número
 var mapaParcelas = {
     "Parcelas" : parcelas,
-    "Parcelas con número" : parcelasNum
+    "Parcelas con número" : parcelasNum,
+    "Acequias": acequias
 }
 
 // Pasamos el objeto base y el objeto capas al método control, para crear un controlador de capas
