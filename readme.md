@@ -16,6 +16,7 @@ Visor urbanístico del ayuntamiento de Tavernes de la Valldigna. El objetivo es 
 #### Frontend
  - Se ha hecho uso de la librería Leaflet de JavaScript para generar mapas en el navegador y gestionar las diferentes capas.
  - Hasta el momento, y haciendo uso de los [servicios web INSPIRE](https://www.catastro.hacienda.gob.es/webinspire/index.html), se ha conseguido renderizar una capa de parcelas de ámbito nacional. Esto se encuentra en el archivo 'mapa.js' dentro de la carpeta **frontend**.
- - Para ver el resultado en el navegador, sólo hay que ejecutar el archivo 'index.html' dentro de la carpeta **frontend**
+ - Para ver el resultado en el navegador, sólo hay que ejecutar el archivo 'index.html' dentro de la carpeta **frontend**.
+ - La capa de acequias se ha obtenido de un shapefile del Ayuntamiento, y para mostrarse se ha servido a través de GeoServer, previa importación desde una base de datos PostGres con el plugin PostGIS, a través del sofware QGIS. 
 
 >**NOTA**: Actualmente las partes de cliente (frontend) y servidor (backend) no están conectadas, falta realizar esto y la obtención de otros datos de interés como **riesgo de inundabilidad**, **zonificación** y aquellos que resulten necesarios, según las necesidades de la institución.
